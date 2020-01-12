@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.lacia.kill</groupId>
-        <artifactId>parent</artifactId>
+        <artifactId>commons</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>provider</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>commons-utils</artifactId>
+    <packaging>jar</packaging>
     <url>https://blog.cccccc.online</url>
     <inceptionYear>2019-Now</inceptionYear>
     <licenses>
@@ -24,13 +24,26 @@
             <email>cqiang102@foxmail.com</email>
         </developer>
     </developers>
-        <modules>
-            <module>provider-email</module>
-        </modules>
     <dependencies>
         <dependency>
-            <groupId>cn.lacia.kill</groupId>
-            <artifactId>commons-utils</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+            </dependency>
     </dependencies>
+<!--    <build>-->
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <mainClass>cn.lacia.kill.business.kill.KillApplication</mainClass>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
 </project>
+

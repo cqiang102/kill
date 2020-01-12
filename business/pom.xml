@@ -27,4 +27,10 @@
         <modules>
             <module>business-kill</module>
         </modules>
+    <dependencies>
+        <dependency>
+            <groupId>cn.lacia.kill</groupId>
+            <artifactId>commons-utils</artifactId>
+        </dependency>
+    </dependencies>
 </project>

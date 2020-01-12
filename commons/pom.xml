@@ -24,7 +24,8 @@
             <email>cqiang102@foxmail.com</email>
         </developer>
     </developers>
-<!--    <modules>-->
-<!--        <module>commons-dto</module>-->
-<!--    </modules>-->
+    <modules>
+        <module>commons-utils</module>
+    </modules>
+
 </project>
