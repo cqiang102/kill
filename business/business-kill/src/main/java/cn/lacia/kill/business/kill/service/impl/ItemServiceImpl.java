@@ -1,5 +1,6 @@
 package cn.lacia.kill.business.kill.service.impl;
 
+import cn.lacia.kill.business.kill.domain.Item;
 import cn.lacia.kill.business.kill.domain.ItemKill;
 import cn.lacia.kill.business.kill.mapper.ItemKillMapper;
 import org.slf4j.Logger;
@@ -21,9 +22,18 @@ public class ItemServiceImpl implements ItemService{
 
     @Resource
     private ItemKillMapper itemKillMapper;
+    @Resource
+    private ItemMapper itemMapper;
 
     @Override
     public List<ItemKill> getKillItems() throws Exception {
         return itemKillMapper.selectAllItemKill();
+    }
+
+    @Override
+    public Item getItemDetailById(String id) throws Exception {
+        Item item = new Item();
+        item.setId(Integer.parseInt(id));
+        return itemMapper.selectOne(item);
     }
 }

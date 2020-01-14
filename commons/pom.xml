@@ -26,6 +26,12 @@
     </developers>
     <modules>
         <module>commons-utils</module>
+        <module>commons-dto</module>
     </modules>
-
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
 </project>

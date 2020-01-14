@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import cn.lacia.kill.commons.dto.Result;
 
 import java.util.List;
 
@@ -25,10 +28,8 @@ public class ItemController {
     private ItemService itemService;
     @GetMapping("list")
     public String list(Model model){
-
         try {
             List<ItemKill> killItems = itemService.getKillItems();
-            killItems.forEach(val->log.info("item : {}",val));
             model.addAttribute("killItems",killItems);
         } catch (Exception e) {
             log.error("list error : {}",e.fillInStackTrace().toString());
@@ -37,4 +38,15 @@ public class ItemController {
         return "index";
     }
 
+    @GetMapping("{itemId}")
+    public  String show(@PathVariable String itemId,Model model){
+        try {
+            model.addAttribute("item",itemService.getItemDetailById(itemId));
+        } catch (Exception e) {
+            log.error("list error : {}",e.fillInStackTrace().toString());
+            return "redirect:/base/error";
+        }
+
+        return "detail";
+    }
 }

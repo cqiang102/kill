@@ -42,6 +42,11 @@
                 <artifactId>commons-utils</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>cn.lacia.kill</groupId>
+                <artifactId>commons-dto</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <repositories>
