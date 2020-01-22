@@ -17,7 +17,7 @@
         id, item_id, total, start_time, end_time, active, create_time
     </sql>
     <select id="selectAllItemKill" resultType="cn.lacia.kill.business.kill.domain.ItemKill">
-      SELECT a.*, b. NAME AS itemName,
+      SELECT a.*, b.name AS itemName,
 	(
 		CASE
 		WHEN (
@@ -33,5 +33,23 @@
     FROM item_kill AS a
     LEFT JOIN item AS b ON a.item_id = b.id
     WHERE a.active = 1
+    </select>
+    <select id="selectItemKillById" resultType="cn.lacia.kill.business.kill.domain.ItemKill">
+              SELECT a.*, b.name AS itemName,
+	(
+		CASE
+		WHEN (
+			now() BETWEEN a.start_time
+			AND a.end_time
+			AND a.total > 0
+		) THEN
+			1
+		ELSE
+			0
+		END
+	) AS canKill
+    FROM item_kill AS a
+    LEFT JOIN item AS b ON a.item_id = b.id
+    WHERE a.active = 1 AND b.id = #{id,jdbcType=VARCHAR}
     </select>
 </mapper>

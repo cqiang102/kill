@@ -24,5 +24,5 @@ public interface ItemService{
      * @return
      * @throws Exception
      */
-    Item getItemDetailById(String id) throws Exception;
+    ItemKill getItemDetailById(String id) throws Exception;
 }

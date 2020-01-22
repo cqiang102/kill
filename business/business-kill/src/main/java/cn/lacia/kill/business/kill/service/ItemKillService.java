@@ -6,5 +6,5 @@ package cn.lacia.kill.business.kill.service;
 */
 public interface ItemKillService{
 
-
+    boolean killItem(Integer killId,Integer userId);
 }

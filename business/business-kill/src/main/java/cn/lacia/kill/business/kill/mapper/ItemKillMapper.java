@@ -14,4 +14,5 @@ import java.util.List;
 public interface ItemKillMapper extends MyMapper<ItemKill> {
 
     List<ItemKill> selectAllItemKill();
+    ItemKill selectItemKillById(String id);
 }

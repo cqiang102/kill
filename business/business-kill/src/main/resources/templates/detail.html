@@ -5,9 +5,36 @@
     <title>商品详情</title>
 </head>
 <body>
-<div><span th:text="${item.name}"></span></div>
-<div><span th:text="${item.code}"></span></div>
-<div><button th:text="抢购"></button></div>
-
+<div><h3>商品名称 : <span th:text="${item.itemName}"></span></h3> </div>
+<div><h3>剩余数量 : <span th:text="${item.total}"></span></h3></div>
+<div><h3>开始时间 : <span th:text="${#dates.format(item.startTime, 'yyyy-MM-dd hh:mm:ss')}"></span></h3></div>
+<div><h3>结束时间 : <span th:text="${#dates.format(item.startTime, 'yyyy-MM-dd hh:mm:ss')}"></span></h3></div>
+<div><h3><button th:onclick="'kill('+${item.itemId}+')'" th:disabled="${!(item.canKill == 1) }" th:text="${item.canKill == 1 ? '抢购':'已过期'}"></button></h3></div>
+<script th:src="@{/http.js}" ></script>
+<script>
+    function kill(id){
+        console.log(111);
+        http.ajax({
+            url: "url",
+            type: 'POST',
+            data: {name: '哈哈', age: 12}, //或 data: 'name=哈哈&age=12',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            beforeSend: (xhr) => {
+                console.log('request show loading...');
+            },
+            success: function (result, status, xhr) {
+                console.log('request success...');
+            },
+            error: (xhr, status, error) => {
+                console.log('request error...');
+            },
+            complete: (xhr, status) => {
+                console.log('request hide loading...');
+            }
+        });
+    }
+</script>
 </body>
 </html>

@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: provider-mail
+  mail:
+    host: smtp.qq.com
+    password: kbebpqxwxdfydhij
+    username: 2375622526@qq.com
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+  thymeleaf:
+    cache: false
+    mode: HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+
+server:
+  port: 18001

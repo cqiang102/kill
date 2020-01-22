@@ -31,9 +31,7 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public Item getItemDetailById(String id) throws Exception {
-        Item item = new Item();
-        item.setId(Integer.parseInt(id));
-        return itemMapper.selectOne(item);
+    public ItemKill getItemDetailById(String id) throws Exception {
+        return itemKillMapper.selectItemKillById(id);
     }
 }
