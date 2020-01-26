@@ -11,6 +11,7 @@
     <!--    版本管理-->
     <properties>
         <spring-boot-mapper.version>2.1.5</spring-boot-mapper.version>
+        <persistence-api.version>1.0.2</persistence-api.version>
 <!--        <lombok.version>1.18.8</lombok.version>-->
     </properties>
 
@@ -46,6 +47,16 @@
                 <groupId>cn.lacia.kill</groupId>
                 <artifactId>commons-dto</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.lacia.kill</groupId>
+                <artifactId>commons-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.persistence</groupId>
+                <artifactId>persistence-api</artifactId>
+                <version>${persistence-api.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

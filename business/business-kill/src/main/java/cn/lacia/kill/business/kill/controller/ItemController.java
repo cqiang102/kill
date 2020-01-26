@@ -1,20 +1,25 @@
 package cn.lacia.kill.business.kill.controller;
 
 import cn.lacia.kill.business.kill.domain.ItemKill;
+import cn.lacia.kill.business.kill.service.ItemKillService;
 import cn.lacia.kill.business.kill.service.ItemKillSuccessService;
 import cn.lacia.kill.business.kill.service.ItemService;
+import cn.lacia.kill.commons.dto.KillDTO;
+import cn.lacia.kill.commons.dto.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import cn.lacia.kill.commons.dto.Result;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -26,8 +31,10 @@ import java.util.List;
 public class ItemController {
     public static final Logger log = LoggerFactory.getLogger(ItemController.class);
 
-    @Autowired
+    @Resource
     private ItemService itemService;
+    @Resource
+    private ItemKillService itemKillService;
 
     @Autowired
     private ItemKillSuccessService itemKillSuccessService;
@@ -59,8 +66,14 @@ public class ItemController {
 
     @PostMapping("kill")
     @ResponseBody
-    public Result kill(){
-//        itemKillSuccessService.insert();
-        return null;
+    public Result kill(@Validated @RequestBody KillDTO killDTO){
+        System.out.println(killDTO);
+        boolean b = false;
+        try {
+             b = itemKillService.killItem(Integer.parseInt(killDTO.getKillId()),Integer.parseInt(killDTO.getUserId()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return b ? new Result("200","ok",null) : new Result("500","notOk",null);
     }
 }

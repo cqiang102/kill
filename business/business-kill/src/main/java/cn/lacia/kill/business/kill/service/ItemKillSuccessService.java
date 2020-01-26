@@ -8,5 +8,5 @@ import cn.lacia.kill.business.kill.domain.ItemKill;
 */
 public interface ItemKillSuccessService{
 
-        void insert(ItemKill kill, String userId);
+        boolean insert(ItemKill kill, String userId);
 }

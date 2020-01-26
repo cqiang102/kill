@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.lacia.kill.business.kill.mapper.ItemKillSuccessMapper">
-  <resultMap id="BaseResultMap" type="cn.lacia.kill.business.kill.domain.ItemKillSuccess">
+  <resultMap id="BaseResultMap" type="cn.lacia.kill.commons.domain.ItemKillSuccess">
     <!--@mbg.generated generated on Sat Jan 11 19:09:17 CST 2020.-->
     <!--@Table item_kill_success-->
     <id column="code" jdbcType="VARCHAR" property="code" />

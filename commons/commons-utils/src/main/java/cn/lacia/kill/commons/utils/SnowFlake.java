@@ -1,11 +1,15 @@
 package cn.lacia.kill.commons.utils;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 /**
  * 描述: Twitter的分布式自增ID雪花算法snowflake (Java版)
  *
  * @author yanpenglei
  * @create 2018-03-13 12:37
  **/
+@Component
 public class SnowFlake {
 
     /**
@@ -33,21 +37,22 @@ public class SnowFlake {
     private final static long MACHINE_LEFT = SEQUENCE_BIT;
     private final static long DATACENTER_LEFT = SEQUENCE_BIT + MACHINE_BIT;
     private final static long TIMESTMP_LEFT = DATACENTER_LEFT + DATACENTER_BIT;
-
+    @Value("${datacenterId}")
     private long datacenterId;  //数据中心
+    @Value("${machineId}")
     private long machineId;     //机器标识
     private long sequence = 0L; //序列号
     private long lastStmp = -1L;//上一次时间戳
 
-    public SnowFlake(long datacenterId, long machineId) {
+    public SnowFlake() {
+
         if (datacenterId > MAX_DATACENTER_NUM || datacenterId < 0) {
             throw new IllegalArgumentException("datacenterId can't be greater than MAX_DATACENTER_NUM or less than 0");
         }
         if (machineId > MAX_MACHINE_NUM || machineId < 0) {
             throw new IllegalArgumentException("machineId can't be greater than MAX_MACHINE_NUM or less than 0");
         }
-        this.datacenterId = datacenterId;
-        this.machineId = machineId;
+
     }
 
     /**
@@ -93,16 +98,4 @@ public class SnowFlake {
         return System.currentTimeMillis();
     }
 
-    public static void main(String[] args) {
-        SnowFlake snowFlake = new SnowFlake(2, 3);
-
-        long start = System.currentTimeMillis();
-        for (int i = 0; i < 1000000; i++) {
-            System.out.println(snowFlake.nextId());
-        }
-
-        System.out.println(System.currentTimeMillis() - start);
-
-
-    }
 }

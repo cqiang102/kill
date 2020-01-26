@@ -1,6 +1,6 @@
 package cn.lacia.kill.business.kill.mapper;
 
-import cn.lacia.kill.business.kill.domain.ItemKillSuccess;
+import cn.lacia.kill.commons.domain.ItemKillSuccess;
 import org.apache.ibatis.annotations.Mapper;
 import tk.mybatis.mapper.MyMapper;
 

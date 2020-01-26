@@ -50,6 +50,6 @@
 	) AS canKill
     FROM item_kill AS a
     LEFT JOIN item AS b ON a.item_id = b.id
-    WHERE a.active = 1 AND b.id = #{id,jdbcType=VARCHAR}
+    WHERE a.active = 1 AND a.item_id = #{id,jdbcType=VARCHAR}
     </select>
 </mapper>

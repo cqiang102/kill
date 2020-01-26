@@ -15,19 +15,28 @@
     function kill(id){
         console.log(111);
         http.ajax({
-            url: "url",
+            url: "/item/kill",
             type: 'POST',
-            data: {name: '哈哈', age: 12}, //或 data: 'name=哈哈&age=12',
+            data: JSON.stringify({killId: 6, userId: 2}),
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                'Content-Type': 'application/json; charset=UTF-8'
             },
             beforeSend: (xhr) => {
                 console.log('request show loading...');
             },
             success: function (result, status, xhr) {
+                console.dir(result);
+                console.dir(status);
+                if (result.status === "200"){
+                    alert("秒杀成功");
+                }else {
+                    alert("秒杀失败");
+                }
                 console.log('request success...');
             },
             error: (xhr, status, error) => {
+                console.dir(status);
+                console.dir(error);
                 console.log('request error...');
             },
             complete: (xhr, status) => {

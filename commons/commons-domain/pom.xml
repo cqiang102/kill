@@ -2,24 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <dependencies>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>17.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-        </dependency>
-    </dependencies>
+
+
     <parent>
         <groupId>cn.lacia.kill</groupId>
         <artifactId>commons</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>commons-dto</artifactId>
+    <artifactId>commons-domain</artifactId>
     <packaging>jar</packaging>
     <url>https://blog.cccccc.online</url>
     <inceptionYear>2019-Now</inceptionYear>
@@ -36,7 +26,17 @@
             <email>cqiang102@foxmail.com</email>
         </developer>
     </developers>
-
+    <dependencies>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+    </dependencies>
 <!--    <build>-->
 <!--        <plugins>-->
 <!--            <plugin>-->

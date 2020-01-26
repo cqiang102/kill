@@ -122,7 +122,7 @@ const http = {
                 let val = data[key];
                 // todo 参数Date类型需要根据后台api酌情处理
                 if (val instanceof Date) {
-                    // val = dateFormat(val, 'yyyy-MM-dd hh:mm:ss');
+                    val = dateFormat(val, 'yyyy-MM-dd hh:mm:ss');
                 }
                 paramsArr.push(encodeURIComponent(key) + '=' + encodeURIComponent(val));
             });

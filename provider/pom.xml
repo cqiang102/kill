@@ -32,5 +32,13 @@
             <groupId>cn.lacia.kill</groupId>
             <artifactId>commons-utils</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.lacia.kill</groupId>
+            <artifactId>commons-dto</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.lacia.kill</groupId>
+            <artifactId>commons-domain</artifactId>
+        </dependency>
     </dependencies>
 </project>
