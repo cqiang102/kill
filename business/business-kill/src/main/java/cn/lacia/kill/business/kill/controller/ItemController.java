@@ -67,7 +67,6 @@ public class ItemController {
     @PostMapping("kill")
     @ResponseBody
     public Result kill(@Validated @RequestBody KillDTO killDTO){
-        System.out.println(killDTO);
         boolean b = false;
         try {
              b = itemKillService.killItem(Integer.parseInt(killDTO.getKillId()),Integer.parseInt(killDTO.getUserId()));

@@ -20,6 +20,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "item_kill_success")
 @Builder
 public class ItemKillSuccess implements Serializable {
+
+    private static final long serialVersionUID = 9202521213672095478L;
     /**
      * 秒杀成功的订单编号
      */

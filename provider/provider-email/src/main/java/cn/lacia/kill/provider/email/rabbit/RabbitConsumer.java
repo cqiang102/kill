@@ -15,5 +15,9 @@ public class RabbitConsumer {
     @RabbitHandler
     public void process(ItemKillSuccess itemKillSuccess) {
         System.out.println("Consumer: " + itemKillSuccess);
+        // 发送邮件
     }
+
+
+
 }
