@@ -3,6 +3,8 @@ package cn.lacia.kill.business.kill.service;
 import cn.lacia.kill.business.kill.domain.ItemKill;
 import cn.lacia.kill.commons.domain.ItemKillSuccess;
 
+import java.util.List;
+
 /**
 @create 2020/1/11 - 19:09
 @author    你是电脑
@@ -14,4 +16,7 @@ public interface ItemKillSuccessService{
         ItemKillSuccess selectItemSuccessByCode(String code);
 
     void updateStatusByCode(String code, byte i);
+
+    List<ItemKillSuccess> selectStatusIsZeroAll();
 }
+

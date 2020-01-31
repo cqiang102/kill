@@ -8,7 +8,7 @@
 <div><h3>商品名称 : <span th:text="${item.itemName}"></span></h3> </div>
 <div><h3>剩余数量 : <span th:text="${item.total}"></span></h3></div>
 <div><h3>开始时间 : <span th:text="${#dates.format(item.startTime, 'yyyy-MM-dd hh:mm:ss')}"></span></h3></div>
-<div><h3>结束时间 : <span th:text="${#dates.format(item.startTime, 'yyyy-MM-dd hh:mm:ss')}"></span></h3></div>
+<div><h3>结束时间 : <span th:text="${#dates.format(item.endTime, 'yyyy-MM-dd hh:mm:ss')}"></span></h3></div>
 <div><h3><button th:onclick="'kill('+${item.itemId}+')'" th:disabled="${!(item.canKill == 1) }" th:text="${item.canKill == 1 ? '抢购':'已过期'}"></button></h3></div>
 <script th:src="@{/http.js}" ></script>
 <script>
