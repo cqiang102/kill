@@ -1,6 +1,7 @@
 package cn.lacia.kill.business.kill.controller;
 
 import cn.lacia.kill.business.kill.domain.ItemKill;
+import cn.lacia.kill.business.kill.domain.SuccessInfo;
 import cn.lacia.kill.business.kill.service.ItemKillService;
 import cn.lacia.kill.business.kill.service.ItemKillSuccessService;
 import cn.lacia.kill.business.kill.service.ItemService;
@@ -75,4 +76,18 @@ public class ItemController {
         }
         return b ? new Result("200","ok",null) : new Result("500","notOk",null);
     }
+    @GetMapping("detail/{code}")
+    public  String detail(@PathVariable String code,Model model){
+        try {
+            SuccessInfo itemKillSuccess = itemKillSuccessService.selectItemSuccessByCode(code);
+            model.addAttribute("item",itemKillSuccess);
+            log.info("{}",itemKillSuccess);
+        } catch (Exception e) {
+            log.error("list error : {}",e.fillInStackTrace().toString());
+            return "redirect:/base/error";
+        }
+
+        return "info";
+    }
+
 }

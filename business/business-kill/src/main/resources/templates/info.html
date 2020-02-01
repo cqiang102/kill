@@ -2,14 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>商品详情</title>
+    <title>订单详情</title>
 </head>
 <body>
-<div><h3>商品名称 : <span th:text="${item.itemName}"></span></h3> </div>
-<div><h3>剩余数量 : <span th:text="${item.total}"></span></h3></div>
-<div><h3>开始时间 : <span th:text="${#dates.format(item.startTime, 'yyyy-MM-dd HH:mm:ss')}"></span></h3></div>
-<div><h3>结束时间 : <span th:text="${#dates.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')}"></span></h3></div>
-<div><h3><button th:onclick="'kill('+${item.itemId}+')'" th:disabled="${!(item.canKill == 1) }" th:text="${item.canKill == 1 ? '抢购':'已过期'}"></button></h3></div>
+<div><h3>用户名 : <span th:text="${item.userName}"></span></h3> </div>
+<div><h3>订单编号 : <span th:text="${item.code}"></span></h3> </div>
+<div><h3>商品名称 : <span th:text="${item.name}"></span></h3></div>
+<div><h3>开始时间 : <span th:text="${#dates.format(item.createTime, 'yyyy-MM-dd HH:mm:ss')}"></span></h3></div>
+<div>
+    <h3 th:switch="${item.status}">
+        订单状态 :
+        <span th:case="-1">已失效</span>
+        <span th:case="0">去付款</span>
+        <span th:case="1">查看物流</span>
+        <span th:case="2">已取消</span>
+    </h3>
+</div>
+<!--<div><h3><button th:onclick="'kill('+${item.itemId}+')'" th:disabled="${!(item.canKill == 1) }" th:text="${item.canKill == 1 ? '抢购':'已过期'}"></button></h3></div>-->
 <script th:src="@{/http.js}" ></script>
 <script>
     function kill(id){

@@ -1,5 +1,6 @@
 package cn.lacia.kill.business.kill.mapper;
 
+import cn.lacia.kill.business.kill.domain.SuccessInfo;
 import cn.lacia.kill.commons.domain.ItemKillSuccess;
 import org.apache.ibatis.annotations.Mapper;
 import tk.mybatis.mapper.MyMapper;
@@ -10,4 +11,6 @@ import tk.mybatis.mapper.MyMapper;
 */
 @Mapper
 public interface ItemKillSuccessMapper extends MyMapper<ItemKillSuccess> {
+
+    SuccessInfo selectSuccessInfo(String code);
 }

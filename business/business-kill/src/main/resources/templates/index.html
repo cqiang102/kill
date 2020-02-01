@@ -27,8 +27,8 @@
     <tr th:each="item : ${killItems}" class="box">
         <td class="box"><span th:text="${item.itemName}"></span></td>
         <td class="box"><span th:text="${item.total}"></span></td>
-        <td class="box"><span th:text="${#dates.format(item.startTime, 'yyyy-MM-dd hh:mm:ss')}"></span></td>
-        <td class="box"><span th:text="${#dates.format(item.endTime, 'yyyy-MM-dd hh:mm:ss')}"></span></td>
+        <td class="box"><span th:text="${#dates.format(item.startTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
+        <td class="box"><span th:text="${#dates.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
         <td class="box"><button th:onclick="'detail('+${item.itemId}+')'" th:disabled="${!(item.canKill == 1) }" th:text="${item.canKill == 1 ? '查看详情':'已过期'}"></button></td>
 
     </tr>

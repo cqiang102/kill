@@ -1,20 +1,12 @@
 package cn.lacia.kill.business.kill.service.impl;
 
 import cn.lacia.kill.business.kill.domain.ItemKill;
+import cn.lacia.kill.business.kill.domain.SuccessInfo;
 import cn.lacia.kill.business.kill.mapper.ItemKillSuccessMapper;
 import cn.lacia.kill.business.kill.service.ItemKillSuccessService;
 import cn.lacia.kill.commons.domain.ItemKillSuccess;
 import cn.lacia.kill.commons.utils.SnowFlake;
-import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageDeliveryMode;
-import org.springframework.amqp.core.MessagePostProcessor;
-import org.springframework.amqp.core.MessageProperties;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.AbstractJavaTypeMapper;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
@@ -63,15 +55,23 @@ public class ItemKillSuccessServiceImpl implements ItemKillSuccessService{
     }
 
     @Override
-    public ItemKillSuccess selectItemSuccessByCode(String code) {
+    public ItemKillSuccess selectItemSuccessByCodeAndStatusIsZero(String code) {
         return itemKillSuccessMapper.selectOne(ItemKillSuccess.builder().code(code).status((byte) 0).build());
     }
+
+    @Override
+    public SuccessInfo selectItemSuccessByCode(String code) {
+        return itemKillSuccessMapper.selectSuccessInfo(code);
+    }
+
 
     @Override
     public void updateStatusByCode(String code, byte i) {
         Example example = new Example(ItemKillSuccess.class);
         example.createCriteria().andEqualTo("code",code).andEqualTo("status",0);
-        itemKillSuccessMapper.updateByExampleSelective(ItemKillSuccess.builder().status(i).build(),example);
+        ItemKillSuccess itemKillSuccess = itemKillSuccessMapper.selectOneByExample(example);
+        itemKillSuccess.setStatus(i);
+        itemKillSuccessMapper.updateByPrimaryKeySelective(itemKillSuccess);
     }
 
     @Override

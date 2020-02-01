@@ -15,4 +15,18 @@
     <!--@mbg.generated generated on Sat Jan 11 19:09:17 CST 2020.-->
     code, item_id, kill_id, user_id, `status`, create_time
   </sql>
+  <select id="selectSuccessInfo" resultType="cn.lacia.kill.business.kill.domain.SuccessInfo">
+    SELECT
+	    iks.code,
+	    iks.status,
+	    iks.create_time,
+	    i.name,
+	    u.user_name
+    FROM
+	    item_kill_success AS iks
+    LEFT JOIN item AS i ON iks.item_id = i.id
+    LEFT JOIN USER AS u ON iks.user_id = u.id
+    WHERE iks.code = #{code,jdbcType=VARCHAR}
+  </select>
+
 </mapper>

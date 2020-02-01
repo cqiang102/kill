@@ -24,7 +24,7 @@ public class RabbitConsumer {
     @RabbitHandler
     public void consumerDead(ItemKillSuccess itemKillSuccess){
 
-        itemKillSuccess = itemKillSuccessService.selectItemSuccessByCode(itemKillSuccess.getCode());
+        itemKillSuccess = itemKillSuccessService.selectItemSuccessByCodeAndStatusIsZero(itemKillSuccess.getCode());
         log.info("订单状态 -> {}",itemKillSuccess);
         // 秒杀成功超时未付款
         if (itemKillSuccess != null && itemKillSuccess.getStatus() == 0){
