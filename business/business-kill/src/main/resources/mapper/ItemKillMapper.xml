@@ -52,4 +52,14 @@
     LEFT JOIN item AS b ON a.item_id = b.id
     WHERE a.active = 1 AND a.item_id = #{id,jdbcType=VARCHAR}
     </select>
+<!--    TODO errr-->
+    <update id="updateTotalByKillId">
+        UPDATE item_kill AS ik
+        SET ik.total = ik.total - 1
+        WHERE
+        	ik.total > 0
+        AND ik.id = #{param1.id}
+        AND
+        0 =  (SELECT COUNT(*) FROM item_kill_success AS iks WHERE iks.user_id = #{userId} AND  iks.status IN (0,1))
+    </update>
 </mapper>

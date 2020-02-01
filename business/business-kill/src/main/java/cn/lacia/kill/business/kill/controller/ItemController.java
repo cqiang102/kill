@@ -68,11 +68,13 @@ public class ItemController {
     @PostMapping("kill")
     @ResponseBody
     public Result kill(@Validated @RequestBody KillDTO killDTO){
+
         boolean b = false;
         try {
              b = itemKillService.killItem(Integer.parseInt(killDTO.getKillId()),Integer.parseInt(killDTO.getUserId()));
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            log.info("抢购失败 -> {}",killDTO);
         }
         return b ? new Result("200","ok",null) : new Result("500","notOk",null);
     }

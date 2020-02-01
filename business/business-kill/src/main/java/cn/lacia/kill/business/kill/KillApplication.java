@@ -3,6 +3,7 @@ package cn.lacia.kill.business.kill;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import tk.mybatis.spring.annotation.MapperScan;
 
 /**
@@ -12,6 +13,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 @SpringBootApplication(scanBasePackages = {"cn.lacia.kill.commons","cn.lacia.kill.business.kill"})
 @MapperScan("cn.lacia.kill.business.kill.mapper")
 @EnableScheduling
+@EnableTransactionManagement
 public class KillApplication {
     public static void main(String[] args) {
         SpringApplication.run(KillApplication.class,args);

@@ -37,3 +37,12 @@ server:
 
 datacenterId: 2
 machineId: 3
+
+logging:
+  level:
+    cn:
+      lacia:
+        kill:
+          business:
+            kill:
+              mapper: debug

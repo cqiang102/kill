@@ -1,5 +1,6 @@
 package cn.lacia.kill.business.kill.service.impl;
 
+import cn.lacia.kill.business.kill.config.KillException;
 import cn.lacia.kill.business.kill.service.ItemKillService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ public class ItemKillServiceTest {
     private ItemKillService itemKillService;
 
     @Test
-    public void testKillItem(){
+    public void testKillItem() throws KillException {
 
         for (int i = 0; i < 1000; i++) {
             log.info("{} -> {}",i,itemKillService.killItem(6, i));
