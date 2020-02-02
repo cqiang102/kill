@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @ToString
 public class KillDTO {
     @NotNull
-    private String killId;
+    private String itemId;
     @NotNull
     private String userId;
 }

@@ -34,13 +34,15 @@ public class RabbitConsumer {
         }
     }
 
-    @Scheduled(cron = "* 0/10 * * * ? ")
+    @Scheduled(cron = "0/10 * * * * ? ")
     public void scheduledExpireOrders(){
         List<ItemKillSuccess> itemKillSuccessList = itemKillSuccessService.selectStatusIsZeroAll();
         if (! itemKillSuccessList.isEmpty()) {
             itemKillSuccessList.forEach(itemKillSuccess -> {
-                itemKillSuccessService.updateStatusByCode(itemKillSuccess.getCode(), (byte) -1);
-                log.info("{} 订单失效",itemKillSuccess.getCode());
+                if (itemKillSuccess.getGap() >= 30){
+                    itemKillSuccessService.updateStatusByCode(itemKillSuccess.getCode(), (byte) -1);
+                    log.info("{} 订单失效",itemKillSuccess.getCode());
+                }
             });
         }
     }

@@ -17,7 +17,7 @@
         http.ajax({
             url: "/item/kill",
             type: 'POST',
-            data: JSON.stringify({killId: 6, userId: 2}),
+            data: JSON.stringify({itemId: id, userId: 2}),
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
             },

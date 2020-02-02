@@ -8,7 +8,6 @@ import cn.lacia.kill.commons.domain.ItemKillSuccess;
 import cn.lacia.kill.commons.utils.SnowFlake;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -40,7 +39,7 @@ public class ItemKillSuccessServiceImpl implements ItemKillSuccessService{
                 .status((byte) 0)
                 .itemId(kill.getItemId())
                 .build();
-        int insert = itemKillSuccessMapper.insert(build);
+        int insert = itemKillSuccessMapper.insertSelective(build);
         if (insert>0){
             // TODO 发送邮件通知用户
             amqpTemplate.convertAndSend("email-Rabbit", build);
@@ -56,7 +55,7 @@ public class ItemKillSuccessServiceImpl implements ItemKillSuccessService{
 
     @Override
     public ItemKillSuccess selectItemSuccessByCodeAndStatusIsZero(String code) {
-        return itemKillSuccessMapper.selectOne(ItemKillSuccess.builder().code(code).status((byte) 0).build());
+        return itemKillSuccessMapper.selectOneByCode(code);
     }
 
     @Override
@@ -67,18 +66,17 @@ public class ItemKillSuccessServiceImpl implements ItemKillSuccessService{
 
     @Override
     public void updateStatusByCode(String code, byte i) {
-        Example example = new Example(ItemKillSuccess.class);
-        example.createCriteria().andEqualTo("code",code).andEqualTo("status",0);
-        ItemKillSuccess itemKillSuccess = itemKillSuccessMapper.selectOneByExample(example);
+        ItemKillSuccess itemKillSuccess = itemKillSuccessMapper.selectOneByCode(code);
+        if (itemKillSuccess == null) {
+            return;
+        }
         itemKillSuccess.setStatus(i);
         itemKillSuccessMapper.updateByPrimaryKeySelective(itemKillSuccess);
     }
 
     @Override
     public List<ItemKillSuccess> selectStatusIsZeroAll() {
-        Example example = new Example(ItemKillSuccess.class);
-        example.createCriteria().andEqualTo("status",0);
-        return itemKillSuccessMapper.selectByExample(example);
+        return itemKillSuccessMapper.selectStatusIsZeroAll();
     }
 
 }

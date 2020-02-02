@@ -1,15 +1,17 @@
 package cn.lacia.kill.business.kill.controller;
 
+import cn.lacia.kill.business.kill.config.KillException;
 import cn.lacia.kill.business.kill.domain.ItemKill;
 import cn.lacia.kill.business.kill.domain.SuccessInfo;
 import cn.lacia.kill.business.kill.service.ItemKillService;
 import cn.lacia.kill.business.kill.service.ItemKillSuccessService;
 import cn.lacia.kill.business.kill.service.ItemService;
+import cn.lacia.kill.business.kill.service.RedisService;
 import cn.lacia.kill.commons.dto.KillDTO;
 import cn.lacia.kill.commons.dto.Result;
+import cn.lacia.kill.commons.utils.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author 你是电脑
@@ -37,8 +40,14 @@ public class ItemController {
     @Resource
     private ItemKillService itemKillService;
 
-    @Autowired
+    @Resource
+    private SnowFlake snowFlake;
+
+    @Resource
     private ItemKillSuccessService itemKillSuccessService;
+
+    @Resource
+    private RedisService redisService;
     @GetMapping("list")
     public String list(Model model){
         try {
@@ -68,14 +77,30 @@ public class ItemController {
     @PostMapping("kill")
     @ResponseBody
     public Result kill(@Validated @RequestBody KillDTO killDTO){
-
+        long l = System.currentTimeMillis();
         boolean b = false;
-        try {
-             b = itemKillService.killItem(Integer.parseInt(killDTO.getKillId()),Integer.parseInt(killDTO.getUserId()));
-        } catch (Exception e) {
-//            e.printStackTrace();
-            log.info("抢购失败 -> {}",killDTO);
-        }
+        Long value = snowFlake.nextId();
+        String key = killDTO.getItemId() + killDTO.getUserId() + "-lock";
+
+            try {
+                if (redisService.putIfAbsent(key,value)) {
+                b = itemKillService.killItem(Integer.parseInt(killDTO.getItemId()),Integer.parseInt(killDTO.getUserId()));
+                }
+            } catch (Exception e) {
+                if (e instanceof KillException){
+                    log.info("抢购失败 -> {}",killDTO);
+                }else {
+                    e.printStackTrace();
+                }
+            }
+            finally {
+//                释放锁
+                if (Objects.equals(value,(Long)redisService.get(key)) ) {
+                    redisService.deleteKey(key);
+                }
+            }
+
+        System.out.println("时间 >>>>> "+(System.currentTimeMillis() - l));
         return b ? new Result("200","ok",null) : new Result("500","notOk",null);
     }
     @GetMapping("detail/{code}")

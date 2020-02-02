@@ -2,16 +2,14 @@ package cn.lacia.kill.business.kill.service.impl;
 
 import cn.lacia.kill.business.kill.config.KillException;
 import cn.lacia.kill.business.kill.domain.ItemKill;
+import cn.lacia.kill.business.kill.mapper.ItemKillMapper;
 import cn.lacia.kill.business.kill.mapper.ItemKillSuccessMapper;
+import cn.lacia.kill.business.kill.service.ItemKillService;
 import cn.lacia.kill.business.kill.service.ItemKillSuccessService;
 import cn.lacia.kill.commons.domain.ItemKillSuccess;
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
-import cn.lacia.kill.business.kill.mapper.ItemKillMapper;
-import cn.lacia.kill.business.kill.service.ItemKillService;
-import org.springframework.transaction.annotation.Transactional;
-import tk.mybatis.mapper.entity.Example;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,15 +28,14 @@ public class ItemKillServiceImpl implements ItemKillService{
     private ItemKillSuccessService itemKillSuccessService;
 
     @Override
-    @Transactional(readOnly = false,rollbackFor= KillException.class)
-    public boolean killItem(Integer killId, Integer userId) throws KillException {
+//    @Transactional(readOnly = false,rollbackFor= KillException.class)
+    public boolean killItem(Integer itemId, Integer userId) throws KillException {
         // 判断当前用户是否已经抢购过改商品
-        List<ItemKillSuccess> select = itemKillSuccessMapper.select(ItemKillSuccess.builder()
-                .itemId(killId)
-                .userId(userId.toString()).build());
+
+        List<ItemKillSuccess> select = itemKillSuccessMapper.selectByItemIdAndUserIdAndStatus(itemId,userId);
         if (Objects.isNull(select) || select.isEmpty()) {
             // 查询待秒杀商品详情
-            ItemKill itemKill = itemKillMapper.selectItemKillById(killId.toString());
+            ItemKill itemKill = itemKillMapper.selectItemKillById(itemId.toString());
             // 判断是否可秒杀
             if (itemKill != null && 1 == itemKill.getCanKill() && itemKill.getTotal() > 0) {
 //                Example example = new Example(ItemKill.class);
@@ -49,7 +46,7 @@ public class ItemKillServiceImpl implements ItemKillService{
 //                // 更新时再次判断库存大于0
 //                example.createCriteria().andGreaterThan("total", 0).andEqualTo("id", itemKill.getId());
 //                int i = itemKillMapper.updateByExampleSelective(itemKill, example);
-                int i = itemKillMapper.updateTotalByKillId(itemKill,userId.toString());
+                int i = itemKillMapper.updateTotalByKillId(itemKill.getId().toString(),userId.toString());
                 // 减库存是否成功
                 if (i > 0) {
                     // TODO 生成订单 ， 通知用户

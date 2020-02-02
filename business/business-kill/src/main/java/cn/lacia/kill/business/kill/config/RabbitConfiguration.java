@@ -34,7 +34,7 @@ public class RabbitConfiguration {
         Map<String,Object> map = new HashMap<String, Object>(){{
             put("x-dead-letter-exchange","successKillDeadExchange");
             put("x-dead-letter-routing-key","successKillDeadQueue-key");
-            put("x-message-ttl",20*1000);
+            put("x-message-ttl",3*60*1000);
         }};
         return new Queue("successKillDead",true,false,false,map);
     }

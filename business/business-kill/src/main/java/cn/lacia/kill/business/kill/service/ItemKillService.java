@@ -8,5 +8,5 @@ import cn.lacia.kill.business.kill.config.KillException;
 */
 public interface ItemKillService{
 
-    boolean killItem(Integer killId,Integer userId) throws KillException;
+    boolean killItem(Integer itemId,Integer userId) throws KillException;
 }

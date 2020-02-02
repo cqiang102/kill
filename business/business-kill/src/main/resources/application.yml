@@ -27,6 +27,18 @@ spring:
     port: 5672
     username: rabbit
     password: 123456
+  redis:
+    database: 0
+    host: 192.168.80.144
+    port: 6379
+    password: 123456
+    timeout: 1000
+    jedis:
+      pool:
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1
+        max-active: 8
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
@@ -38,11 +50,11 @@ server:
 datacenterId: 2
 machineId: 3
 
-logging:
-  level:
-    cn:
-      lacia:
-        kill:
-          business:
-            kill:
-              mapper: debug
+#logging:
+#  level:
+#    cn:
+#      lacia:
+#        kill:
+#          business:
+#            kill:
+#              mapper: debug

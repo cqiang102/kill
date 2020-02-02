@@ -28,5 +28,29 @@
     LEFT JOIN USER AS u ON iks.user_id = u.id
     WHERE iks.code = #{code,jdbcType=VARCHAR}
   </select>
+    <select id="selectStatusIsZeroAll" resultType="cn.lacia.kill.commons.domain.ItemKillSuccess">
+        SELECT
+        	a.*, TIMESTAMPDIFF(MINUTE, a.create_time, NOW()) AS gap
+        FROM
+        	item_kill_success AS a
+        WHERE
+        	a.status = 0
+    </select>
+    <select id="selectOneByCode" resultType="cn.lacia.kill.commons.domain.ItemKillSuccess">
+         SELECT
+            <include refid="Base_Column_List"/>
+        FROM
+        	item_kill_success AS a
+        WHERE
+        	a.status = 0 AND a.code = #{code,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByItemIdAndUserIdAndStatus" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        item_kill_success AS a
+        WHERE
+        a.item_id = #{itemId} AND a.user_id = #{userId} AND A.status IN (0,1)
+    </select>
 
 </mapper>

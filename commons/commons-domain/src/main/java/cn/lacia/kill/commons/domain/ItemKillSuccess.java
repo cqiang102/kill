@@ -1,15 +1,16 @@
 package cn.lacia.kill.commons.domain;
 
-import java.io.Serializable;
-import java.util.Date;
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
 @create 2020/1/11 - 19:09
@@ -60,4 +61,6 @@ public class ItemKillSuccess implements Serializable {
     @Column(name = "create_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GTM+8")
     private Date createTime;
+
+    private Integer gap;
 }
