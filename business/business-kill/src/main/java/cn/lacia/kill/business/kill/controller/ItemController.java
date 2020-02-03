@@ -10,6 +10,8 @@ import cn.lacia.kill.business.kill.service.RedisService;
 import cn.lacia.kill.commons.dto.KillDTO;
 import cn.lacia.kill.commons.dto.Result;
 import cn.lacia.kill.commons.utils.SnowFlake;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author 你是电脑
@@ -48,6 +51,9 @@ public class ItemController {
 
     @Resource
     private RedisService redisService;
+
+    @Resource
+    private RedissonClient redissonClient;
     @GetMapping("list")
     public String list(Model model){
         try {
@@ -74,10 +80,9 @@ public class ItemController {
         return "detail";
     }
 
-    @PostMapping("kill")
+    @PostMapping("kill-redis")
     @ResponseBody
-    public Result kill(@Validated @RequestBody KillDTO killDTO){
-        long l = System.currentTimeMillis();
+    public Result killRedis(@Validated @RequestBody KillDTO killDTO){
         boolean b = false;
         Long value = snowFlake.nextId();
         String key = killDTO.getItemId() + killDTO.getUserId() + "-lock";
@@ -100,7 +105,32 @@ public class ItemController {
                 }
             }
 
-        System.out.println("时间 >>>>> "+(System.currentTimeMillis() - l));
+        return b ? new Result("200","ok",null) : new Result("500","notOk",null);
+    }
+    @PostMapping("kill")
+    @ResponseBody
+    public Result kill(@Validated @RequestBody KillDTO killDTO){
+
+        boolean b = false;
+        String key = killDTO.getItemId() + killDTO.getUserId() + "-Redisson-lock";
+        RLock lock = redissonClient.getLock(key);
+        try {
+            if (lock.tryLock(30,10, TimeUnit.SECONDS)) {
+                b = itemKillService.killItem(Integer.parseInt(killDTO.getItemId()),Integer.parseInt(killDTO.getUserId()));
+            }
+        } catch (Exception e) {
+            if (e instanceof KillException){
+                log.info("抢购失败 -> {}",killDTO);
+            }else {
+                e.printStackTrace();
+            }
+        }
+        finally {
+//                释放锁
+//            lock.unlock();
+            lock.forceUnlock();
+        }
+
         return b ? new Result("200","ok",null) : new Result("500","notOk",null);
     }
     @GetMapping("detail/{code}")
