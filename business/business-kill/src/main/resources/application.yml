@@ -50,6 +50,10 @@ server:
 datacenterId: 2
 machineId: 3
 
+zk:
+  host: 192.168.80.144:2181
+  namespace: kill
+
 #logging:
 #  level:
 #    cn:

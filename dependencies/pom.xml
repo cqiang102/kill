@@ -13,6 +13,7 @@
         <spring-boot-mapper.version>2.1.5</spring-boot-mapper.version>
         <persistence-api.version>1.0.2</persistence-api.version>
         <redisson.version>3.12.0</redisson.version>
+        <curator.version>2.11.0</curator.version>
 <!--        <lombok.version>1.18.8</lombok.version>-->
     </properties>
 
@@ -64,6 +65,22 @@
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-client</artifactId>
+                <version>${curator.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

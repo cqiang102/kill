@@ -10,6 +10,8 @@ import cn.lacia.kill.business.kill.service.RedisService;
 import cn.lacia.kill.commons.dto.KillDTO;
 import cn.lacia.kill.commons.dto.Result;
 import cn.lacia.kill.commons.utils.SnowFlake;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
@@ -54,6 +56,8 @@ public class ItemController {
 
     @Resource
     private RedissonClient redissonClient;
+    @Resource
+    private CuratorFramework curatorFramework;
     @GetMapping("list")
     public String list(Model model){
         try {
@@ -107,10 +111,9 @@ public class ItemController {
 
         return b ? new Result("200","ok",null) : new Result("500","notOk",null);
     }
-    @PostMapping("kill")
+    @PostMapping("kill-redisson")
     @ResponseBody
-    public Result kill(@Validated @RequestBody KillDTO killDTO){
-
+    public Result killRedisson(@Validated @RequestBody KillDTO killDTO){
         boolean b = false;
         String key = killDTO.getItemId() + killDTO.getUserId() + "-Redisson-lock";
         RLock lock = redissonClient.getLock(key);
@@ -130,7 +133,35 @@ public class ItemController {
 //            lock.unlock();
             lock.forceUnlock();
         }
+        return b ? new Result("200","ok",null) : new Result("500","notOk",null);
+    }
 
+    @PostMapping("kill")
+    @ResponseBody
+    public Result kill(@Validated @RequestBody KillDTO killDTO){
+        String key = killDTO.getItemId() + killDTO.getUserId() + "-zookeeper-lock";
+        InterProcessMutex interProcessMutex = new InterProcessMutex(curatorFramework,"/kill/killLock/".concat(key));
+        boolean b = false;
+        try {
+            if(interProcessMutex.acquire(10L,TimeUnit.SECONDS)) {
+                b = itemKillService.killItem(Integer.parseInt(killDTO.getItemId()), Integer.parseInt(killDTO.getUserId()));
+            }
+        } catch (Exception e) {
+            if (e instanceof KillException){
+                log.info("抢购失败 -> {}",killDTO);
+            }else {
+                e.printStackTrace();
+            }
+        }
+        finally {
+            if (interProcessMutex != null) {
+                try {
+                    interProcessMutex.release();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         return b ? new Result("200","ok",null) : new Result("500","notOk",null);
     }
     @GetMapping("detail/{code}")
