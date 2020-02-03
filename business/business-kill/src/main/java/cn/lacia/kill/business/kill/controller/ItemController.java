@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -70,7 +71,7 @@ public class ItemController {
         return "index";
     }
 
-    @GetMapping("{itemId}")
+    @GetMapping("show/{itemId}")
     public  String show(@PathVariable String itemId,Model model){
         try {
             ItemKill itemDetailById = itemService.getItemDetailById(itemId);
@@ -138,7 +139,11 @@ public class ItemController {
 
     @PostMapping("kill")
     @ResponseBody
-    public Result kill(@Validated @RequestBody KillDTO killDTO){
+    public Result kill(@Validated @RequestBody KillDTO killDTO,HttpSession session){
+        Integer uid = (Integer) session.getAttribute("uid");
+        if (uid == null || killDTO== null | !Objects.equals(uid.toString(),killDTO.getUserId())) {
+            return new Result("500","登录错误",null);
+        }
         String key = killDTO.getItemId() + killDTO.getUserId() + "-zookeeper-lock";
         InterProcessMutex interProcessMutex = new InterProcessMutex(curatorFramework,"/kill/killLock/".concat(key));
         boolean b = false;
@@ -165,7 +170,8 @@ public class ItemController {
         return b ? new Result("200","ok",null) : new Result("500","notOk",null);
     }
     @GetMapping("detail/{code}")
-    public  String detail(@PathVariable String code,Model model){
+    public  String detail(@PathVariable String code, Model model){
+
         try {
             SuccessInfo itemKillSuccess = itemKillSuccessService.selectItemSuccessByCode(code);
             model.addAttribute("item",itemKillSuccess);

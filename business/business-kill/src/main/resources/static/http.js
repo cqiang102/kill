@@ -44,6 +44,10 @@ const http = {
         // 请求成功回调函数
         xhr.addEventListener('load', e => {
             const status = xhr.status;
+            console.dir(xhr.getResponseHeader("Location")+" : "+status)
+            if(status === 302){
+                window.open(xhr.getResponseHeader("Location"))
+            }
             if ((status >= 200 && status < 300) || status === 304) {
                 let result;
                 if (xhr.responseType === 'text') {

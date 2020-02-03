@@ -9,15 +9,17 @@
 <div><h3>剩余数量 : <span th:text="${item.total}"></span></h3></div>
 <div><h3>开始时间 : <span th:text="${#dates.format(item.startTime, 'yyyy-MM-dd HH:mm:ss')}"></span></h3></div>
 <div><h3>结束时间 : <span th:text="${#dates.format(item.endTime, 'yyyy-MM-dd HH:mm:ss')}"></span></h3></div>
-<div><h3><button th:onclick="'kill('+${item.itemId}+')'" th:disabled="${!(item.canKill == 1) }" th:text="${item.canKill == 1 ? '抢购':'已过期'}"></button></h3></div>
+<div><h3><button th:onclick="'kill('+${item.itemId}+','+${session.uid}+')'" th:disabled="${!(item.canKill == 1) }" th:text="${item.canKill == 1 ? '抢购':'已过期'}"></button></h3></div>
+
 <script th:src="@{/http.js}" ></script>
 <script>
-    function kill(id){
+
+    function kill(id,uid){
         console.log(111);
         http.ajax({
             url: "/item/kill",
             type: 'POST',
-            data: JSON.stringify({itemId: id, userId: 2}),
+            data: JSON.stringify({itemId: id, userId: uid}),
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
             },

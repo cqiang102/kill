@@ -3,6 +3,7 @@ package cn.lacia.kill.business.kill.service.impl;
 import cn.lacia.kill.business.kill.config.KillException;
 import cn.lacia.kill.business.kill.service.ItemKillService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,4 +27,5 @@ public class ItemKillServiceTest {
         }
 
     }
+
 }
